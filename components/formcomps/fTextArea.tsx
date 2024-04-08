@@ -6,7 +6,7 @@ export function FTextArea(props: {
   title: string;
   description: string;
   placeholder: string;
-  inputData: string;
+  userAnswer: string;
   handleChange: (value: string) => void;
 }) {
   const onChange = (e: any) => {
@@ -22,7 +22,7 @@ export function FTextArea(props: {
         cols={80}
         className="w-full"
         placeholder={props.placeholder}
-        value={props.inputData}
+        value={props.userAnswer}
         onChange={onChange}
       />
     </div>

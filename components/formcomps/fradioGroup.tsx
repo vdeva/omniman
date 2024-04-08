@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 export function FRadioGroup(props: {
   title: string;
   description: string;
-  inputData: string;
+  userAnswer: string;
   options: {
     label: string;
     value: string;
@@ -23,7 +23,7 @@ export function FRadioGroup(props: {
       <p className="text-sm text-neutral-600 pb-3">{props.description}</p>
       <div className="w-full" />
       <RadioGroup
-        value={props.inputData}
+        value={props.userAnswer}
         onChange={onChange}
         onClick={onChange}
       >

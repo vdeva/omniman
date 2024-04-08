@@ -6,7 +6,7 @@ export function FOptionSwitch(props: {
   title: string;
   description: string;
   placeholder: string;
-  inputData: string;
+  userAnswer: string;
 }) {
   return (
     <div className="flex flex-row gap-1 w-full bg-white shadow-sm py-6 px-8 rounded-xl">

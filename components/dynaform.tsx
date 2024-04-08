@@ -14,7 +14,7 @@ const TextAreaSchema = z.object({
   title: z.string(),
   description: z.string(),
   placeholder: z.string(),
-  inputData: z.string().optional().nullable(),
+  userAnswer: z.string().optional().nullable(),
 });
 
 const NumberSliderSchema = z.object({
@@ -24,14 +24,14 @@ const NumberSliderSchema = z.object({
   minValue: z.number(),
   maxValue: z.number(),
   step: z.number(),
-  inputData: z.number().optional().nullable(),
+  userAnswer: z.number().optional().nullable(),
 });
 
 const OptionSwitchSchema = z.object({
   type: z.literal("optionSwitch"),
   title: z.string(),
   description: z.string(),
-  inputData: z.boolean().optional().nullable(),
+  userAnswer: z.boolean().optional().nullable(),
 });
 
 const RadioGroupSchema = z.object({
@@ -44,7 +44,7 @@ const RadioGroupSchema = z.object({
       value: z.string(),
     }),
   ),
-  inputData: z.string().optional().nullable(),
+  userAnswer: z.string().optional().nullable(),
 });
 
 const InputFieldSchema = z.union([
@@ -58,7 +58,7 @@ const InputsSchema = z.array(InputFieldSchema);
 
 export function Dynaform() {
   const [formData, setFormData] = useState(
-    `[{"type":"textArea","title":"Campaign Goals","description":"What are the goals of this omnichannel marketing campaign?","placeholder":"E.g. increase brand awareness, drive sales, etc.","inputData":""}]`,
+    `[{"type":"textArea","title":"Campaign Goals","description":"What are the goals of this omnichannel marketing campaign?","placeholder":"E.g. increase brand awareness, drive sales, etc.","userAnswer":""}]`,
   );
   const [loading, setLoading] = useState(false);
   const [strat, setStrat] = useState("");
@@ -156,7 +156,7 @@ export function Dynaform() {
   const handleInputChange = (index: any, value: any) => {
     const updatedFields = JSON.parse(formData).map((field: any, i: any) => {
       if (i === index) {
-        return { ...field, inputData: value };
+        return { ...field, userAnswer: value };
       }
       return field;
     });

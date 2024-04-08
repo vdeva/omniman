@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       title: z.string(),
       description: z.string(),
       placeholder: z.string(),
-      inputData: z.string().optional().nullable(),
+      userAnswer: z.string().optional().nullable(),
     });
     
     const NumberSliderSchema = z.object({
@@ -36,14 +36,14 @@ export async function POST(req: Request) {
       minValue: z.number(),
       maxValue: z.number(),
       step: z.number(),
-      inputData: z.number().optional().nullable(),
+      userAnswer: z.number().optional().nullable(),
     });
     
     const OptionSwitchSchema = z.object({
       type: z.literal('optionSwitch'),
       title: z.string(),
       description: z.string(),
-      inputData: z.boolean().optional().nullable(),
+      userAnswer: z.boolean().optional().nullable(),
     });
     
     const RadioGroupSchema = z.object({
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
         label: z.string(),
         value: z.string(),
       })),
-      inputData: z.string().optional().nullable(),
+      userAnswer: z.string().optional().nullable(),
     });
     
     const InputFieldSchema = z.union([
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
         "title": "Feedback",
         "description": "Your feedback",
         "placeholder": "Type here...",
-        "inputData": ""
+        "userAnswer": ""
       },
       {
         "type": "numberSlider",
@@ -83,13 +83,13 @@ export async function POST(req: Request) {
         "minValue": 1,
         "maxValue": 5,
         "step": 1,
-        "inputData": 3
+        "userAnswer": 3
       },
       {
         "type": "optionSwitch",
         "title": "Enable Feature",
         "description": "Enable this feature?",
-        "inputData": true
+        "userAnswer": true
       },
       {
         "type": "radioGroup",
@@ -105,13 +105,13 @@ export async function POST(req: Request) {
             "value": "2"
           }
         ],
-        "inputData": "2"
+        "userAnswer": "2"
       },
       // Add more as needed.
     ]
     
     Current form state with user answers:
-    ${formState}
+    ${JSON.stringify(formState).toString()}
     
     Keep in mind radio groups are NOT multi-selectable. Don't use them for things where someone might want to select multiple things.
     DO NOT RE-RETURN THE ENTIRE FORM.
@@ -120,10 +120,9 @@ export async function POST(req: Request) {
     ONLY USE JSON. NOTHING ELSE.
     NEVER EVER SAY "'Here is an example of a new input field object.. " OR ANYTHING OF THAT SORT.
     ONLY RETURN JSON!!!!! DO NOT WRITE ANY CONTEXT OUTSIDE OF THE JSON.
-    ONLY WRITE THE FORM SECTIONS THAT ARE TO BE APPENDED.
-    USE THE CURRENT FORM STATE ANSWERS TO HYPER-CUSTOMIZE THE NEXT FORM INPUT FIELDS.
-    
-    WHEN PARSING YOUR RESPONSE IT MUST BE VALIDATED BY THE ZOD SCHEMA ABOVE.`,
+    ONLY WRITE THE FORM SECTIONS THAT ARE TO BE APPENDED. NEVER RE-USE A PREVIOUS INPUT FIELD.
+    WHEN PARSING YOUR RESPONSE IT MUST BE VALIDATED BY THE ZOD SCHEMA ABOVE.
+    Make each new input field super unique and creative.`,
     },
   ];
 
@@ -135,7 +134,7 @@ export async function POST(req: Request) {
   const response = await groq.chat.completions.create({
     messages,
     model: "mixtral-8x7b-32768",
-    temperature: 0.6,
+    temperature: 0.8,
   });
 
   return Response.json({ response });
